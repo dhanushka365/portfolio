@@ -536,6 +536,54 @@
         </div>
     </footer>
 
+    <!-- Chat Bot -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <h3>Chat with Pasindu</h3>
+            <button class="chatbot-close" id="chatbotClose">&times;</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+                <p>Hi! I'm here to help. How can I assist you today?</p>
+            </div>
+        </div>
+        <div class="chatbot-input-area">
+            <div class="quick-actions" id="quickActions">
+                <button class="quick-btn" data-action="email">📧 Send Email</button>
+                <button class="quick-btn" data-action="whatsapp">💬 WhatsApp</button>
+                <button class="quick-btn" data-action="cv">📄 Get CV</button>
+                <button class="quick-btn" data-action="salary">💰 Salary Info</button>
+            </div>
+            <div class="chatbot-form" id="chatbotForm" style="display: none;">
+                <input type="text" id="userName" placeholder="Your Name" required>
+                <input type="email" id="userEmail" placeholder="Your Email" required>
+                <textarea id="userMessage" placeholder="Your Message" rows="3" required></textarea>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-send" id="sendEmailBtn">Send Email</button>
+                    <button type="button" class="btn-cancel" id="cancelForm">Cancel</button>
+                </div>
+            </div>
+            <div class="salary-form" id="salaryForm" style="display: none;">
+                <input type="text" id="salaryName" placeholder="Your Name" required>
+                <input type="email" id="salaryEmail" placeholder="Your Email" required>
+                <input type="text" id="salaryExpectation" placeholder="Salary Expectation (e.g., $50k-70k)" required>
+                <textarea id="salaryMessage" placeholder="Additional Information (Optional)" rows="2"></textarea>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-send" id="sendSalaryBtn">Submit</button>
+                    <button type="button" class="btn-cancel" id="cancelSalaryForm">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="chatbot-toggle" id="chatbotToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+    </button>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="script.js"></script>
+    <script src="chatbot.js"></script>
 </body>
 </html>
