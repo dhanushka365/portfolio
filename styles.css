@@ -695,7 +695,7 @@ body {
 
 .testimonial-content {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
 }
 
 .quote-icon {
@@ -704,7 +704,7 @@ body {
     color: var(--primary-color);
     opacity: 0.2;
     position: absolute;
-    top: -10px;
+    top: 10px;
     left: -10px;
 }
 
@@ -740,8 +740,9 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .author-avatar {
