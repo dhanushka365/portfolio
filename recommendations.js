@@ -6,7 +6,8 @@ const recommendationsData = {
       "author": {
         "name": "Krishnamenan Rasenthira",
         "title": "We help global tech companies hire Asia's top 3% vetted talent — faster, smarter, and fully remote via talport.ai",
-        "linkedin": "https://www.linkedin.com/in/krishnamenan-rasenthira"
+        "linkedin": "https://www.linkedin.com/in/krishnamenan-rasenthira",
+        "image": ""
       }
     },
     {
@@ -14,7 +15,8 @@ const recommendationsData = {
       "author": {
         "name": "Gobinthiran Kulendran",
         "title": "Building talport.ai — Hire From Sri Lanka's Top 0.1% Engineers · Silicon Valley–grade verified by Ex-FAANG",
-        "linkedin": "https://www.linkedin.com/in/gobinthiran-kulendran"
+        "linkedin": "https://www.linkedin.com/in/gobinthiran-kulendran",
+        "image": "https://media.licdn.com/dms/image/v2/D5603AQFs3ZrZ9Ljbug/profile-displayphoto-shrink_100_100/B56ZYOnpWtGcAU-/0/1744001997094?e=1770854400&v=beta&t=qQ8DaQWVbYMba28XB9jVocfSm9JrgC4rsIdnegqTTuQ"
       }
     },
     {
@@ -22,7 +24,8 @@ const recommendationsData = {
       "author": {
         "name": "Nishad Ahamed",
         "title": "Senior AI Engineer | AI for Game Testing & Crash Analysis Researcher | NLP, Computer Vision & LLMs",
-        "linkedin": "https://www.linkedin.com/in/nishad-ahamed"
+        "linkedin": "https://www.linkedin.com/in/nishad-ahamed",
+        "image": "https://media.licdn.com/dms/image/v2/D5603AQGX_UGQ5Zgwwg/profile-displayphoto-scale_100_100/B56Zksi_ulHcAc-/0/1757388996462?e=1770854400&v=beta&t=hIbKKA0atQseYWevG8HW6znkwAmlKqCRQvBYhkJx50Q"
       }
     },
     {
@@ -30,7 +33,8 @@ const recommendationsData = {
       "author": {
         "name": "Sevitha Heshanjith",
         "title": "Senior Software Engineer | Backend Developer | C# | .NET | Azure | AzureDevOps",
-        "linkedin": "https://www.linkedin.com/in/sevitha-heshanjith"
+        "linkedin": "https://www.linkedin.com/in/sevitha-heshanjith",
+        "image": "https://media.licdn.com/dms/image/v2/C5603AQEou1o7TOC2XA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1661878980621?e=1770854400&v=beta&t=lY1mgWfH_zedCIZcnTk1cNPLC9cEJPGQPOHaggVFfy0"
       }
     },
     {
@@ -38,7 +42,8 @@ const recommendationsData = {
       "author": {
         "name": "Kusal M.",
         "title": "Senior Software Engineer | BSc (Hons) | MBA | Java | Spring Boot| .Net | MySql | QA testing | FinTech",
-        "linkedin": "https://www.linkedin.com/in/kusal-m"
+        "linkedin": "https://www.linkedin.com/in/kusal-m",
+        "image": "https://media.licdn.com/dms/image/v2/D5603AQFt1WSpXty56Q/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1682473363866?e=1770854400&v=beta&t=UZuOgP7ReAR91KmZ3hnTyIIa94aQXedPMiWr8QNLB7s"
       }
     },
     {
@@ -46,7 +51,8 @@ const recommendationsData = {
       "author": {
         "name": "Ranushka Pasindu",
         "title": "Backend Specialist | .NET Core, C#, Microsoft technologies | Scalable API & Cloud Architecture | 5+ Years",
-        "linkedin": "https://www.linkedin.com/in/ranushka-pasindu"
+        "linkedin": "https://www.linkedin.com/in/ranushka-pasindu",
+        "image": "https://media.licdn.com/dms/image/v2/D5603AQEOPlBG927rhg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1729397955561?e=1770854400&v=beta&t=jQjcfiAC-pzfZboXTGE0Etq9pOY_NbJAGqRjAp5_vlE"
       }
     }
   ]
@@ -57,6 +63,19 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// Function to get profile image URL
+// Uses UI Avatars service to generate avatar from name if no image URL is provided
+function getProfileImageUrl(author) {
+    // If manual image URL is provided, use it
+    if (author.image) {
+        return author.image;
+    }
+    
+    // Otherwise, generate avatar from name using UI Avatars
+    const name = encodeURIComponent(author.name);
+    return `https://ui-avatars.com/api/?name=${name}&size=128&background=027e6f&color=fff&bold=true&format=png`;
 }
 
 // Function to open modal with full recommendation
@@ -72,6 +91,7 @@ function openRecommendationModal(recommendation) {
     const name = escapeHtml(recommendation.author.name);
     const title = escapeHtml(recommendation.author.title);
     const linkedin = recommendation.author.linkedin;
+    const profileImage = getProfileImageUrl(recommendation.author);
     
     modalContent.innerHTML = `
         <div class="modal-recommendation-content">
@@ -82,6 +102,9 @@ function openRecommendationModal(recommendation) {
             <p class="modal-recommendation-text">"${text}"</p>
         </div>
         <div class="modal-recommendation-author">
+            <div class="modal-author-avatar">
+                <img src="${profileImage}" alt="${name}" class="author-profile-image">
+            </div>
             <div class="modal-author-info">
                 <h4 class="modal-author-name">${name}</h4>
                 <p class="modal-author-title">${title}</p>
@@ -127,6 +150,7 @@ function renderRecommendations(data) {
         const text = escapeHtml(recommendation.text);
         const name = escapeHtml(recommendation.author.name);
         const title = escapeHtml(recommendation.author.title);
+        const profileImage = getProfileImageUrl(recommendation.author);
         
         // Check if text is long enough to truncate (more than ~200 characters)
         const isLongText = recommendation.text.length > 200;
@@ -141,6 +165,9 @@ function renderRecommendations(data) {
                 ${isLongText ? '<span class="read-more-indicator">Click to read more →</span>' : ''}
             </div>
             <div class="testimonial-author">
+                <div class="author-avatar">
+                    <img src="${profileImage}" alt="${name}" class="author-profile-image">
+                </div>
                 <div class="author-info">
                     <h4 class="author-name">${name}</h4>
                     <p class="author-title">${title}</p>
