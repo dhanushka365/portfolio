@@ -489,6 +489,33 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
+.experience-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.company-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    background: white;
+    padding: 0.5rem;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.company-logo:hover {
+    transform: scale(1.1);
+}
+
+.experience-header > div {
+    flex: 1;
+}
+
 .experience-title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -874,6 +901,15 @@ body {
 
     .experience-content:hover {
         transform: translateY(-5px);
+    }
+
+    .company-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .experience-header {
+        gap: 1rem;
     }
 
     .container {
