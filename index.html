@@ -89,6 +89,7 @@
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#testimonials" class="nav-link">Recommendations</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
             <button class="nav-toggle" aria-label="Toggle navigation">
@@ -459,6 +460,32 @@
         </div>
     </section>
 
+    <!-- Testimonials/Recommendations Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">LinkedIn Recommendations</h2>
+            <p class="section-subtitle">What colleagues and clients say about working with me</p>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <!-- Recommendations will be loaded dynamically from recommendations.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendation Modal -->
+    <div class="recommendation-modal" id="recommendationModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-recommendation-content" id="modalContent">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
@@ -584,6 +611,7 @@
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="script.js"></script>
+    <script src="recommendations.js"></script>
     <script src="chatbot.js"></script>
 </body>
 </html>
