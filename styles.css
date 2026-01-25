@@ -604,12 +604,25 @@ body {
 }
 
 .tech-tag {
-    padding: 0.25rem 0.75rem;
-    background: var(--bg-secondary);
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: white;
     color: var(--primary-color);
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     font-size: 0.85rem;
     font-weight: 500;
+    text-decoration: none;
+    border: 2px solid var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tech-tag:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .project-links {
