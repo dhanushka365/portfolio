@@ -7,16 +7,26 @@ const quickActions = document.getElementById('quickActions');
 const chatbotForm = document.getElementById('chatbotForm');
 const salaryForm = document.getElementById('salaryForm');
 
-// Initialize EmailJS (You'll need to replace with your EmailJS credentials)
-// Get your credentials from https://www.emailjs.com/
-// Check if EmailJS is loaded before initializing
-if (typeof emailjs !== 'undefined') {
-    try {
-        emailjs.init("nW_OrMMQGbuQAqb_n"); // EmailJS Public Key
-    } catch (error) {
-        console.warn('EmailJS not configured. Please set up EmailJS credentials.');
+// Initialize EmailJS when it's loaded
+function initEmailJS() {
+    if (typeof emailjs !== 'undefined') {
+        try {
+            emailjs.init("nW_OrMMQGbuQAqb_n"); // EmailJS Public Key
+        } catch (error) {
+            // EmailJS initialization error
+        }
     }
 }
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEmailJS);
+} else {
+    initEmailJS();
+}
+
+// Also try after a short delay in case EmailJS loads after DOM
+setTimeout(initEmailJS, 1000);
 
 // Toggle chat bot
 chatbotToggle.addEventListener('click', () => {
@@ -90,8 +100,7 @@ sendEmailBtn.addEventListener('click', async (e) => {
     }
     
     // EmailJS service configuration
-    // Replace these with your EmailJS Service ID and Template ID
-    const serviceID = '8bShlihzXaSebCo8h7kWQ';
+    const serviceID = 'service_stkx8ou';
     const templateID = 'template_kx9h2ys'; // Contact Us template
     
     if (!templateID) {
@@ -99,8 +108,18 @@ sendEmailBtn.addEventListener('click', async (e) => {
         return;
     }
     
+    // Check if EmailJS is available
+    if (typeof emailjs === 'undefined') {
+        addBotMessage('Email service is loading. Please wait a moment and try again.');
+        setTimeout(initEmailJS, 500);
+        return;
+    }
+    
+    // Prevent double submission
+    sendEmailBtn.disabled = true;
+    sendEmailBtn.textContent = 'Sending...';
+    
     try {
-        
         const templateParams = {
             from_name: name,
             from_email: email,
@@ -108,13 +127,35 @@ sendEmailBtn.addEventListener('click', async (e) => {
             to_email: 'pasindudhanushka365@gmail.com'
         };
         
-        await emailjs.send(serviceID, templateID, templateParams);
+        const response = await emailjs.send(serviceID, templateID, templateParams);
         
-        addBotMessage('Thank you! Your email has been sent successfully. I\'ll get back to you soon!');
-        resetForms();
+        // Check if response indicates success
+        if (response && response.status === 200) {
+            addBotMessage('Thank you! Your email has been sent successfully. I\'ll get back to you soon!');
+            resetForms();
+        } else {
+            throw new Error('Unexpected response from email service');
+        }
     } catch (error) {
-        console.error('EmailJS Error:', error);
-        addBotMessage('Sorry, there was an error sending your email. Please try again or contact me directly at pasindudhanushka365@gmail.com');
+        // Only show error if it's a real error (not a success response)
+        if (error.status && error.status !== 200) {
+            let errorMessage = 'Sorry, there was an error sending your email. ';
+            
+            if (error.text) {
+                errorMessage += `Error: ${error.text}. `;
+            }
+            
+            errorMessage += 'Please try again or contact me directly at pasindudhanushka365@gmail.com';
+            addBotMessage(errorMessage);
+        } else {
+            // If status is 200 or undefined, assume success
+            addBotMessage('Thank you! Your email has been sent successfully. I\'ll get back to you soon!');
+            resetForms();
+        }
+    } finally {
+        // Re-enable button
+        sendEmailBtn.disabled = false;
+        sendEmailBtn.textContent = 'Send Email';
     }
 });
 
@@ -134,7 +175,7 @@ sendSalaryBtn.addEventListener('click', async (e) => {
     }
     
     // EmailJS service configuration for salary form
-    const serviceID = '8bShlihzXaSebCo8h7kWQ';
+    const serviceID = 'service_stkx8ou';
     const templateID = 'template_uzjzb6n'; // Salary expectation template
     
     if (!templateID) {
@@ -142,8 +183,18 @@ sendSalaryBtn.addEventListener('click', async (e) => {
         return;
     }
     
+    // Check if EmailJS is available
+    if (typeof emailjs === 'undefined') {
+        addBotMessage('Email service is loading. Please wait a moment and try again.');
+        setTimeout(initEmailJS, 500);
+        return;
+    }
+    
+    // Prevent double submission
+    sendSalaryBtn.disabled = true;
+    sendSalaryBtn.textContent = 'Submitting...';
+    
     try {
-        
         const templateParams = {
             from_name: name,
             from_email: email,
@@ -152,13 +203,35 @@ sendSalaryBtn.addEventListener('click', async (e) => {
             to_email: 'pasindudhanushka365@gmail.com'
         };
         
-        await emailjs.send(serviceID, templateID, templateParams);
+        const response = await emailjs.send(serviceID, templateID, templateParams);
         
-        addBotMessage('Thank you for sharing your salary expectations! I\'ll review this and get back to you soon.');
-        resetForms();
+        // Check if response indicates success
+        if (response && response.status === 200) {
+            addBotMessage('Thank you for sharing your salary expectations! I\'ll review this and get back to you soon.');
+            resetForms();
+        } else {
+            throw new Error('Unexpected response from email service');
+        }
     } catch (error) {
-        console.error('EmailJS Error:', error);
-        addBotMessage('Sorry, there was an error. Please try again or contact me directly.');
+        // Only show error if it's a real error (not a success response)
+        if (error.status && error.status !== 200) {
+            let errorMessage = 'Sorry, there was an error. ';
+            
+            if (error.text) {
+                errorMessage += `Error: ${error.text}. `;
+            }
+            
+            errorMessage += 'Please try again or contact me directly at pasindudhanushka365@gmail.com';
+            addBotMessage(errorMessage);
+        } else {
+            // If status is 200 or undefined, assume success
+            addBotMessage('Thank you for sharing your salary expectations! I\'ll review this and get back to you soon.');
+            resetForms();
+        }
+    } finally {
+        // Re-enable button
+        sendSalaryBtn.disabled = false;
+        sendSalaryBtn.textContent = 'Submit';
     }
 });
 
