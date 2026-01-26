@@ -161,3 +161,11 @@ function typeWriter(element, text, speed = 100) {
 //     const originalText = nameElement.textContent;
 //     typeWriter(nameElement, originalText, 100);
 // }
+
+// Slow down video playback speed
+document.addEventListener('DOMContentLoaded', () => {
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+        heroVideo.playbackRate = 0.5; // Set to 50% speed (0.5 = half speed, 1.0 = normal speed)
+    }
+});
