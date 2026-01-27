@@ -212,4 +212,124 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = '';
         }
     });
+
+    // Gallery Viewer functionality
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryGrid = document.getElementById('galleryGrid');
+    const galleryModalClose = document.getElementById('galleryModalClose');
+    const galleryViewerLinks = document.querySelectorAll('.gallery-viewer-link');
+
+    // Define gallery items for each company
+    const galleryData = {
+        huex: [
+            {
+                type: 'image',
+                path: 'experince/Huex/LayOff.png',
+                title: 'Lay Off Letter',
+                name: 'LayOff.png'
+            },
+            {
+                type: 'image',
+                path: 'experince/Huex/Offer of employement.png',
+                title: 'Offer of Employment',
+                name: 'Offer of employement.png'
+            },
+            {
+                type: 'pdf',
+                path: 'experince/Huex/huex GmbH - Uduwelage Don Pasindu Dhanushka Uduwela - Contract.pdf',
+                title: 'Contract - huex GmbH',
+                name: 'huex GmbH - Uduwelage Don Pasindu Dhanushka Uduwela - Contract.pdf'
+            },
+            {
+                type: 'pdf',
+                path: 'experince/Huex/Uduwelage Don Pasindu Dhanushka Uduwela - Contract.pdf',
+                title: 'Contract',
+                name: 'Uduwelage Don Pasindu Dhanushka Uduwela - Contract.pdf'
+            }
+        ]
+    };
+
+    // Function to render gallery items
+    function renderGallery(galleryName) {
+        const items = galleryData[galleryName] || [];
+        galleryGrid.innerHTML = '';
+
+        items.forEach(item => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+
+            if (item.type === 'image') {
+                galleryItem.innerHTML = `
+                    <img src="${item.path}" alt="${item.title}" class="gallery-item-image">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">${item.title}</h4>
+                        <p class="gallery-item-type">Image</p>
+                    </div>
+                `;
+                galleryItem.addEventListener('click', () => {
+                    // Open image in new tab or create image viewer
+                    window.open(item.path, '_blank');
+                });
+            } else if (item.type === 'pdf') {
+                galleryItem.innerHTML = `
+                    <div class="gallery-item-pdf">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">${item.title}</h4>
+                        <p class="gallery-item-type">PDF Document</p>
+                    </div>
+                `;
+                galleryItem.addEventListener('click', () => {
+                    pdfViewer.src = item.path;
+                    pdfModal.classList.add('active');
+                    galleryModal.classList.remove('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            galleryGrid.appendChild(galleryItem);
+        });
+    }
+
+    // Open gallery viewer when link is clicked
+    galleryViewerLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const galleryName = link.getAttribute('data-gallery');
+            if (galleryName && galleryData[galleryName]) {
+                renderGallery(galleryName);
+                galleryModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    // Close gallery viewer
+    galleryModalClose.addEventListener('click', () => {
+        galleryModal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    // Close gallery when clicking outside
+    galleryModal.addEventListener('click', (e) => {
+        if (e.target === galleryModal) {
+            galleryModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Close gallery with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && galleryModal.classList.contains('active')) {
+            galleryModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
 });
