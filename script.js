@@ -168,4 +168,48 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroVideo) {
         heroVideo.playbackRate = 0.5; // Set to 50% speed (0.5 = half speed, 1.0 = normal speed)
     }
+
+    // PDF Viewer Modal functionality
+    const pdfModal = document.getElementById('pdfModal');
+    const pdfViewer = document.getElementById('pdfViewer');
+    const pdfModalClose = document.getElementById('pdfModalClose');
+    const pdfViewerLinks = document.querySelectorAll('.pdf-viewer-link');
+
+    // Open PDF viewer when link is clicked
+    pdfViewerLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pdfPath = link.getAttribute('data-pdf');
+            if (pdfPath) {
+                pdfViewer.src = pdfPath;
+                pdfModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        });
+    });
+
+    // Close PDF viewer
+    pdfModalClose.addEventListener('click', () => {
+        pdfModal.classList.remove('active');
+        pdfViewer.src = ''; // Clear the iframe source
+        document.body.style.overflow = ''; // Restore scrolling
+    });
+
+    // Close modal when clicking outside
+    pdfModal.addEventListener('click', (e) => {
+        if (e.target === pdfModal) {
+            pdfModal.classList.remove('active');
+            pdfViewer.src = '';
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pdfModal.classList.contains('active')) {
+            pdfModal.classList.remove('active');
+            pdfViewer.src = '';
+            document.body.style.overflow = '';
+        }
+    });
 });

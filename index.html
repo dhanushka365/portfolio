@@ -234,8 +234,8 @@
                             <p><strong>GPA (Overall):</strong> 3.37/4.0</p>
                         </div>
                         <div class="education-links">
-                            <a href="#" class="education-link" target="_blank">Degree Certificate</a>
-                            <a href="#" class="education-link" target="_blank">Academic Transcript</a>
+                            <a href="#" class="education-link pdf-viewer-link" data-pdf="PDF/DOC020824-02082024091115.pdf">Degree Certificate</a>
+                            <a href="#" class="education-link pdf-viewer-link" data-pdf="PDF/DOC020824-02082024091148.pdf">Academic Transcript</a>
                         </div>
                     </div>
                 </div>
@@ -760,6 +760,19 @@
             <div class="modal-recommendation-content" id="modalContent">
                 <!-- Modal content will be populated by JavaScript -->
             </div>
+        </div>
+    </div>
+
+    <!-- PDF Viewer Modal -->
+    <div class="pdf-modal" id="pdfModal">
+        <div class="pdf-modal-content">
+            <button class="pdf-modal-close" id="pdfModalClose" aria-label="Close PDF viewer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <iframe id="pdfViewer" src="" frameborder="0"></iframe>
         </div>
     </div>
 
