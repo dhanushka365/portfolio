@@ -263,23 +263,34 @@ function openWhatsApp() {
 
 // Download CV
 function downloadCV() {
-    // You'll need to add your CV file to the project
-    // For now, this will try to download a CV.pdf file
-    addBotMessage('Preparing your CV download...');
-    
-    // Option 1: If you have a CV file in your project
-    const cvLink = document.createElement('a');
-    cvLink.href = 'CV.pdf'; // Replace with your actual CV file path
-    cvLink.download = 'Pasindu_Uduwela_CV.pdf';
-    cvLink.click();
-    
-    // Option 2: If CV is hosted elsewhere, use:
-    // window.open('YOUR_CV_URL', '_blank');
-    
-    setTimeout(() => {
-        addBotMessage('CV download started! If it didn\'t work, please contact me directly.');
-        resetForms();
-    }, 500);
+    addBotMessage('Here is my CV!');
+    showCVInChat();
+    resetForms();
+}
+
+// Show CV in chat
+function showCVInChat() {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message bot-message';
+    messageDiv.innerHTML = `
+        <p>Here's my CV. You can view it below or download it.</p>
+        <div class="cv-preview-container">
+            <iframe src="my cv/Pasindu Uduwela.pdf" class="cv-preview" frameborder="0"></iframe>
+            <div class="cv-actions">
+                <a href="my cv/Pasindu Uduwela.pdf" target="_blank" class="cv-action-btn">Open in New Tab</a>
+                <a href="my cv/Pasindu Uduwela.pdf" download="Pasindu_Uduwela_CV.pdf" class="cv-action-btn">Download CV</a>
+            </div>
+        </div>
+    `;
+    chatbotMessages.appendChild(messageDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Detect CV requests in user messages (if you add text input later)
+function detectCVRequest(message) {
+    const cvKeywords = ['cv', 'resume', 'curriculum vitae', 'cv please', 'show cv', 'get cv', 'download cv'];
+    const lowerMessage = message.toLowerCase();
+    return cvKeywords.some(keyword => lowerMessage.includes(keyword));
 }
 
 // Add message to chat

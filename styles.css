@@ -1894,6 +1894,49 @@ body {
     line-height: 1.5;
 }
 
+.cv-preview-container {
+    margin-top: 0.75rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.cv-preview {
+    width: 100%;
+    height: 400px;
+    border: none;
+    display: block;
+}
+
+.cv-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    flex-wrap: wrap;
+}
+
+.cv-action-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.cv-action-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
 .chatbot-input-area {
     padding: 1rem;
     background: white;
@@ -2412,6 +2455,18 @@ body {
         right: 0.5rem;
         width: 36px;
         height: 36px;
+    }
+
+    .cv-preview {
+        height: 300px;
+    }
+
+    .cv-actions {
+        flex-direction: column;
+    }
+
+    .cv-action-btn {
+        width: 100%;
     }
 
     .pdf-modal {
