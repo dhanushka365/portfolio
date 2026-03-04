@@ -246,6 +246,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: 'Contract',
                 name: 'Uduwelage Don Pasindu Dhanushka Uduwela - Contract.pdf'
             }
+        ],
+        treinetic: [
+            {
+                type: 'pdf',
+                path: 'experince/Trientic/trientic offer email.pdf',
+                title: 'Offer Letter',
+                name: 'trientic offer email.pdf'
+            },
+            {
+                type: 'pdf',
+                path: 'experince/Trientic/trientic agreement.pdf',
+                title: 'Agreement',
+                name: 'trientic agreement.pdf'
+            }
         ]
     };
 
