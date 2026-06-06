@@ -91,6 +91,7 @@
                 <li><a href="#education" class="nav-link">Education</a></li>
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#freelance" class="nav-link">Freelance Projects</a></li>
                 <li><a href="#testimonials" class="nav-link">Recommendations</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -1003,6 +1004,17 @@
         </div>
     </section>
 
+    <!-- Freelance Projects Section -->
+    <section id="freelance" class="freelance">
+        <div class="container">
+            <h2 class="section-title">Freelance Projects</h2>
+            <p class="section-subtitle">Client work — UI designs, dashboards, and system diagrams</p>
+            <div class="freelance-grid" id="freelanceGrid">
+                <!-- Project folders rendered by JavaScript -->
+            </div>
+        </div>
+    </section>
+
     <!-- Testimonials/Recommendations Section -->
     <section id="testimonials" class="testimonials">
         <div class="container">
@@ -1039,6 +1051,30 @@
                 </svg>
             </button>
             <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div class="image-lightbox" id="imageLightbox">
+        <button class="image-lightbox-close" id="imageLightboxClose" aria-label="Close image viewer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <button class="image-lightbox-nav image-lightbox-prev" id="imageLightboxPrev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <button class="image-lightbox-nav image-lightbox-next" id="imageLightboxNext" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+        <div class="image-lightbox-content">
+            <img id="imageLightboxImg" src="" alt="">
+            <p class="image-lightbox-caption" id="imageLightboxCaption"></p>
         </div>
     </div>
 

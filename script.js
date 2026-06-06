@@ -77,7 +77,7 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.project-card, .skill-category, .stat-item');
+    const animateElements = document.querySelectorAll('.project-card, .skill-category, .stat-item, .freelance-folder');
     
     animateElements.forEach(el => {
         el.style.opacity = '0';
@@ -213,11 +213,128 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Freelance Projects
+    const freelanceGrid = document.getElementById('freelanceGrid');
+
+    const freelanceProjectsData = {
+        'revit-data-extractor': {
+            title: 'Revit Data Extractor',
+            description: 'Web application for extracting Revit building data, running assessments, GBA calculations, and generating step-by-step PDF reports.',
+            year: '2026',
+            cover: 'freelance/Revitdataextractor/Main Dashboard Page.png',
+            tech: ['UI/UX Design', 'Dashboard', 'Google Maps API', 'PDF Generation'],
+            images: [
+                { path: 'freelance/Revitdataextractor/welcome page.png', title: 'Welcome Page' },
+                { path: 'freelance/Revitdataextractor/Main Dashboard Page.png', title: 'Main Dashboard' },
+                { path: 'freelance/Revitdataextractor/Project creation page with Data.png', title: 'Project Creation' },
+                { path: 'freelance/Revitdataextractor/new assesment.png', title: 'New Assessment' },
+                { path: 'freelance/Revitdataextractor/MAN critiriea pages.png', title: 'MAN Criteria Pages' },
+                { path: 'freelance/Revitdataextractor/GBA Page.png', title: 'GBA Page' },
+                { path: 'freelance/Revitdataextractor/Google Maps.png', title: 'Google Maps Integration' },
+                { path: 'freelance/Revitdataextractor/PDF generation For Each steps.png', title: 'PDF Generation Steps' },
+                { path: 'freelance/Revitdataextractor/Page.png', title: 'Additional Page' }
+            ]
+        }
+    };
+
+    function renderFreelanceGrid() {
+        if (!freelanceGrid) return;
+
+        freelanceGrid.innerHTML = '';
+
+        Object.entries(freelanceProjectsData).forEach(([id, project]) => {
+            const folder = document.createElement('div');
+            folder.className = 'freelance-folder';
+            folder.setAttribute('data-project', id);
+            folder.innerHTML = `
+                <div class="freelance-folder-preview">
+                    <img src="${project.cover}" alt="${project.title} preview" class="freelance-folder-image" loading="lazy">
+                    <div class="freelance-folder-overlay">
+                        <span class="freelance-folder-count">${project.images.length} screens</span>
+                    </div>
+                </div>
+                <div class="freelance-folder-content">
+                    <h3 class="freelance-folder-title">${project.title} <span class="freelance-folder-year">(${project.year})</span></h3>
+                    <p class="freelance-folder-description">${project.description}</p>
+                    <div class="freelance-folder-tech">
+                        ${project.tech.map(tag => `<span class="tech-tag">${tag}</span>`).join('')}
+                    </div>
+                    <span class="freelance-folder-link">View Gallery →</span>
+                </div>
+            `;
+
+            folder.addEventListener('click', () => {
+                openGallery(id, { source: 'freelance' });
+            });
+
+            freelanceGrid.appendChild(folder);
+        });
+    }
+
+    renderFreelanceGrid();
+
     // Gallery Viewer functionality
     const galleryModal = document.getElementById('galleryModal');
     const galleryGrid = document.getElementById('galleryGrid');
+    const galleryTitle = document.getElementById('galleryTitle');
     const galleryModalClose = document.getElementById('galleryModalClose');
     const galleryViewerLinks = document.querySelectorAll('.gallery-viewer-link');
+
+    // Image lightbox
+    const imageLightbox = document.getElementById('imageLightbox');
+    const imageLightboxImg = document.getElementById('imageLightboxImg');
+    const imageLightboxCaption = document.getElementById('imageLightboxCaption');
+    const imageLightboxClose = document.getElementById('imageLightboxClose');
+    const imageLightboxPrev = document.getElementById('imageLightboxPrev');
+    const imageLightboxNext = document.getElementById('imageLightboxNext');
+    let lightboxImages = [];
+    let lightboxIndex = 0;
+
+    function openImageLightbox(images, index) {
+        lightboxImages = images;
+        lightboxIndex = index;
+        updateLightboxImage();
+        imageLightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightboxImage() {
+        const current = lightboxImages[lightboxIndex];
+        if (!current) return;
+
+        imageLightboxImg.src = current.path;
+        imageLightboxImg.alt = current.title;
+        imageLightboxCaption.textContent = `${current.title} (${lightboxIndex + 1} / ${lightboxImages.length})`;
+        imageLightboxPrev.style.visibility = lightboxIndex > 0 ? 'visible' : 'hidden';
+        imageLightboxNext.style.visibility = lightboxIndex < lightboxImages.length - 1 ? 'visible' : 'hidden';
+    }
+
+    function closeImageLightbox() {
+        imageLightbox.classList.remove('active');
+        imageLightboxImg.src = '';
+        if (!galleryModal.classList.contains('active')) {
+            document.body.style.overflow = '';
+        }
+    }
+
+    imageLightboxClose.addEventListener('click', closeImageLightbox);
+    imageLightbox.addEventListener('click', (e) => {
+        if (e.target === imageLightbox) closeImageLightbox();
+    });
+    imageLightboxPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (lightboxIndex > 0) {
+            lightboxIndex--;
+            updateLightboxImage();
+        }
+    });
+    imageLightboxNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (lightboxIndex < lightboxImages.length - 1) {
+            lightboxIndex++;
+            updateLightboxImage();
+        }
+    });
 
     // Define gallery items for each company
     const galleryData = {
@@ -263,26 +380,57 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    // Function to render gallery items
-    function renderGallery(galleryName) {
-        const items = galleryData[galleryName] || [];
-        galleryGrid.innerHTML = '';
+    function getGalleryItems(galleryName, options = {}) {
+        if (options.source === 'freelance' && freelanceProjectsData[galleryName]) {
+            return {
+                title: freelanceProjectsData[galleryName].title,
+                items: freelanceProjectsData[galleryName].images.map(image => ({
+                    type: 'image',
+                    ...image
+                }))
+            };
+        }
 
-        items.forEach(item => {
+        return {
+            title: 'Documents & Certificates',
+            items: galleryData[galleryName] || []
+        };
+    }
+
+    function openGallery(galleryName, options = {}) {
+        const { title, items } = getGalleryItems(galleryName, options);
+        if (!items.length) return;
+
+        galleryTitle.textContent = title;
+        renderGalleryItems(items, options.source === 'freelance');
+        galleryModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Function to render gallery items
+    function renderGalleryItems(items, useLightbox = false) {
+        galleryGrid.innerHTML = '';
+        const imageItems = items.filter(item => item.type === 'image');
+
+        items.forEach((item, index) => {
             const galleryItem = document.createElement('div');
             galleryItem.className = 'gallery-item';
 
             if (item.type === 'image') {
                 galleryItem.innerHTML = `
-                    <img src="${item.path}" alt="${item.title}" class="gallery-item-image">
+                    <img src="${item.path}" alt="${item.title}" class="gallery-item-image" loading="lazy">
                     <div class="gallery-item-info">
                         <h4 class="gallery-item-title">${item.title}</h4>
-                        <p class="gallery-item-type">Image</p>
+                        <p class="gallery-item-type">${useLightbox ? 'UI Screen' : 'Image'}</p>
                     </div>
                 `;
                 galleryItem.addEventListener('click', () => {
-                    // Open image in new tab or create image viewer
-                    window.open(item.path, '_blank');
+                    if (useLightbox) {
+                        const imageIndex = imageItems.findIndex(img => img.path === item.path);
+                        openImageLightbox(imageItems, imageIndex);
+                    } else {
+                        window.open(item.path, '_blank');
+                    }
                 });
             } else if (item.type === 'pdf') {
                 galleryItem.innerHTML = `
@@ -318,9 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const galleryName = link.getAttribute('data-gallery');
             if (galleryName && galleryData[galleryName]) {
-                renderGallery(galleryName);
-                galleryModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                openGallery(galleryName);
             }
         });
     });
@@ -339,9 +485,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Close gallery with Escape key
+    // Close gallery / lightbox with Escape key
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && galleryModal.classList.contains('active')) {
+        if (e.key === 'Escape' && imageLightbox.classList.contains('active')) {
+            closeImageLightbox();
+        } else if (e.key === 'ArrowLeft' && imageLightbox.classList.contains('active') && lightboxIndex > 0) {
+            lightboxIndex--;
+            updateLightboxImage();
+        } else if (e.key === 'ArrowRight' && imageLightbox.classList.contains('active') && lightboxIndex < lightboxImages.length - 1) {
+            lightboxIndex++;
+            updateLightboxImage();
+        } else if (e.key === 'Escape' && galleryModal.classList.contains('active')) {
             galleryModal.classList.remove('active');
             document.body.style.overflow = '';
         }
